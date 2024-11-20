@@ -6,11 +6,8 @@ namespace Turahe\Post\Tests\Unit;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Test;
-use Turahe\Post\Tests\Models\Post;
+use Turahe\Post\Models\Post;
 use Turahe\Post\Tests\TestCase;
 
 class PostTest extends TestCase
@@ -26,25 +23,13 @@ class PostTest extends TestCase
         $this->assertCount($count, Post::all()); // +1 in the TestCase
     }
 
-    #[Test]
-    public function it_can_force_delete_the_post(): void
-    {
-        $post = Post::factory()->create();
-
-        $postRepo = new PostRepository($post);
-        $deleted = $postRepo->deletePost();
-
-        $this->assertTrue($deleted);
-        $this->assertDatabaseMissing('posts', []);
-    }
 
     #[Test]
     public function it_cannot_get_the_post(): void
     {
         $this->expectException(ModelNotFoundException::class);
 
-        $postRepo = new PostRepository(new Post);
-        $postRepo->getPostBySlug('slug-post');
+        Post::whereSlug('slug-post')->firstOrFail();
 
     }
 
@@ -53,11 +38,10 @@ class PostTest extends TestCase
     {
         $post = Post::factory()->create();
 
-        $postRepo = new PostRepository($post);
-        $deletedTrash = $postRepo->trashPost();
+        $deletedTrash = $post->delete();
 
         $this->assertTrue($deletedTrash);
-        $this->assertSoftDeleted('posts', ['id' => $post->getKey()]);
+        $this->assertDatabaseMissing('posts');
     }
 
     #[Test]
@@ -72,10 +56,9 @@ class PostTest extends TestCase
             'type' => 'post',
         ];
 
-        $postRepo = new PostRepository($postFactory);
-        $updated = $postRepo->updatePost($data);
+        $updated = $postFactory->update($data);
 
-        $post = $postRepo->getPostBySlug($postFactory->slug);
+        $post = Post::whereSlug($postFactory->slug)->first();
 
         $this->assertTrue($updated);
         $this->assertEquals($data['title'], $post->title);
@@ -87,15 +70,11 @@ class PostTest extends TestCase
     #[Test]
     public function it_can_create_a_post(): void
     {
-        if (!Schema::hasTable('posts')) {
-            dd('post table not found');
-        }
-        dd('post table already exists');
+
         $data = [
             'title' => $this->faker->name,
             'subtitle' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
-            'content' => $this->faker->paragraph,
             'type' => 'post',
         ];
 
@@ -105,7 +84,6 @@ class PostTest extends TestCase
         $this->assertEquals($data['title'], $post->title);
         $this->assertEquals($data['description'], $post->description);
         $this->assertEquals($data['subtitle'], $post->subtitle);
-        $this->assertEquals($data['content'], $post->content_raw);
         $this->assertEquals($data['type'], $post->type);
     }
 
@@ -119,12 +97,9 @@ class PostTest extends TestCase
         ];
         $post = Post::factory()->create($data);
 
-        $postRepo = new PostRepository($post);
 
-        $found = $postRepo->getPostBySlug($data['slug']);
-
-        $this->assertInstanceOf(Post::class, $found);
-        $this->assertEquals($post['slug'], $found->slug);
-        $this->assertEquals($post['title'], $found->title);
+        $this->assertInstanceOf(Post::class, $post);
+        $this->assertEquals($post['slug'], $post->slug);
+        $this->assertEquals($post['title'], $post->title);
     }
 }

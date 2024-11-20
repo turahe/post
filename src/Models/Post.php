@@ -16,11 +16,14 @@ namespace Turahe\Post\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Turahe\Core\Concerns\HasTags;
+use Turahe\Post\Concerns\HasContents;
+use Turahe\Post\Databases\Factories\PostFactory;
 use Turahe\UserStamps\Concerns\HasUserStamps;
 
 /**
@@ -81,11 +84,12 @@ use Turahe\UserStamps\Concerns\HasUserStamps;
  */
 class Post extends Model
 {
-//    use HasSlug;
+    use HasFactory;
+    use HasSlug;
     use HasTags;
     use HasUlids;
     use HasUserStamps;
-    use SoftDeletes;
+    use HasContents;
 
     /**
      * @var string
@@ -142,5 +146,10 @@ class Post extends Model
             return $query->whereNull('published_at')
                 ->orWhere('published_at', '>', now());
         });
+    }
+
+    protected static function newFactory()
+    {
+        return PostFactory::new();
     }
 }

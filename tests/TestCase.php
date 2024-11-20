@@ -16,7 +16,8 @@ class TestCase extends \Orchestra\Testbench\TestCase
         parent::setUp();
 
         $this->setUpDatabase();
-        $this->loadMigrationsFrom(__DIR__.'./../database/migrations');
+        $databasePath = __DIR__ . '/../database/migrations';
+        $this->loadMigrationsFrom($databasePath);
     }
     protected function getPackageProviders($app)
     {

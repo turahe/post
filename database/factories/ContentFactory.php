@@ -2,20 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Turahe\Post\Tests\Factories;
+namespace Turahe\Post\Databases\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use League\CommonMark\Exception\CommonMarkException;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
-use Turahe\Post\Tests\Models\Content;
+use Turahe\Post\Models\Content;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Content>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Turahe\Post\Models\Content>
  */
 class ContentFactory extends Factory
 {
     protected $model = Content::class;
-
     /**
      * Define the model's default state.
      *

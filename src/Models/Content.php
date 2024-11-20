@@ -6,8 +6,10 @@ namespace Turahe\Post\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Turahe\Post\Databases\Factories\ContentFactory;
 use Turahe\UserStamps\Concerns\HasUserStamps;
 
 /**
@@ -50,6 +52,7 @@ use Turahe\UserStamps\Concerns\HasUserStamps;
  */
 class Content extends Model
 {
+    use HasFactory;
     use HasUlids;
     use HasUserStamps;
     use SoftDeletes;
@@ -95,5 +98,10 @@ class Content extends Model
                 'words' => $this->word_count,
             ];
         });
+    }
+
+    protected static function newFactory()
+    {
+        return ContentFactory::new();
     }
 }

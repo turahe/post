@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Turahe\Post\Tests\Factories;
+namespace Turahe\Post\Databases\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Turahe\Post\Tests\Models\Post;
+use Turahe\Post\Models\Post;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Turahe\Post\Models\Post>
  */
 class PostFactory extends Factory
 {
-    protected $model = Post::class;
 
+    protected $model = Post::class;
     /**
      * Define the model's default state.
      *
