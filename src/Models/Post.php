@@ -89,7 +89,6 @@ class Post extends Model
     use HasTags;
     use HasUlids;
     use HasUserStamps;
-    use HasContents;
 
     /**
      * @var string
