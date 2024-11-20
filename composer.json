@@ -8,6 +8,7 @@
             "type": "git"
         }
     ],
+    "license": "proprietary",
     "require": {
         "php": "^8.2",
         "turahe/core": "dev-master"
@@ -42,7 +43,10 @@
         }
     ],
     "config": {
+        "preferred-install": "dist",
         "sort-packages": true,
         "optimize-autoloader": true
-    }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
