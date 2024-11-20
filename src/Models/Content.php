@@ -66,6 +66,8 @@ class Content extends Model
      * @var string[]
      */
     protected $fillable = [
+        'model_id',
+        'model_type',
         'content_raw',
         'content_html',
     ];
