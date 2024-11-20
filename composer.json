@@ -1,0 +1,47 @@
+{
+    "name": "turahe/post",
+    "description": "post",
+    "type": "library",
+    "repositories": [
+        {
+            "url": "https://github.com/turahe/core.git",
+            "type": "git"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "turahe/core": "dev-master"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.18",
+        "orchestra/testbench": "^9.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Turahe\\Post\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Turahe\\Post\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Turahe\\Post\\PostServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "authors": [
+        {
+            "name": "Nur Wachid",
+            "email": "wachid@outlook.com"
+        }
+    ],
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true
+    }
+}
