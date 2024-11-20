@@ -15,6 +15,7 @@ use Turahe\Post\Models\Content;
 class ContentFactory extends Factory
 {
     protected $model = Content::class;
+
     /**
      * Define the model's default state.
      *

@@ -18,11 +18,9 @@ class PostTest extends TestCase
         $count = 5;
         Post::factory()->count($count)->create();
 
-
         $this->assertInstanceOf(Collection::class, Post::all());
         $this->assertCount($count, Post::all()); // +1 in the TestCase
     }
-
 
     #[Test]
     public function it_cannot_get_the_post(): void
@@ -87,7 +85,6 @@ class PostTest extends TestCase
         $this->assertEquals($data['type'], $post->type);
     }
 
-
     #[Test]
     public function it_can_find_slug_a_post(): void
     {
@@ -96,7 +93,6 @@ class PostTest extends TestCase
             'title' => 'Post 1',
         ];
         $post = Post::factory()->create($data);
-
 
         $this->assertInstanceOf(Post::class, $post);
         $this->assertEquals($post['slug'], $post->slug);

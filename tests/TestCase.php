@@ -16,9 +16,10 @@ class TestCase extends \Orchestra\Testbench\TestCase
         parent::setUp();
 
         $this->setUpDatabase();
-        $databasePath = __DIR__ . '/../database/migrations';
+        $databasePath = __DIR__.'/../database/migrations';
         $this->loadMigrationsFrom($databasePath);
     }
+
     protected function getPackageProviders($app)
     {
         return [
@@ -42,6 +43,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
         ]);
         $app['config']->set('app.key', 'base64:MFOsOH9RomiI2LRdgP4hIeoQJ5nyBhdABdH77UY2zi8=');
     }
+
     protected function setUpDatabase()
     {
         $this->app['config']->set('auth.providers.users.model', User::class);

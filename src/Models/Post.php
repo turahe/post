@@ -18,11 +18,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Turahe\Core\Concerns\HasTags;
-use Turahe\Post\Concerns\HasContents;
 use Turahe\Post\Databases\Factories\PostFactory;
 use Turahe\UserStamps\Concerns\HasUserStamps;
 

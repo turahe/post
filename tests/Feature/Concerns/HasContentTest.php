@@ -19,7 +19,7 @@ class HasContentTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->testModel = Dummy::create(['name' => 'Dummy Dummy Dummy Dummy' ]);
+        $this->testModel = Dummy::create(['name' => 'Dummy Dummy Dummy Dummy']);
 
     }
 

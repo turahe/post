@@ -14,7 +14,7 @@ class PostServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/post.php', 'post');
 
         if ($this->app instanceof \Illuminate\Foundation\Application) {
-            $databasePath = __DIR__ . '/../database/migrations';
+            $databasePath = __DIR__.'/../database/migrations';
             $this->loadMigrationsFrom($databasePath);
 
             $this->publishes(
@@ -25,5 +25,4 @@ class PostServiceProvider extends ServiceProvider
             );
         }
     }
-
 }

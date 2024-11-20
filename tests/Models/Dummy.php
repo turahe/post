@@ -8,11 +8,10 @@ use Turahe\Post\Concerns\HasContents;
 
 class Dummy extends Model
 {
-    use HasUlids;
     use HasContents;
+    use HasUlids;
 
     public $timestamps = false;
 
     protected $guarded = [];
-
 }
