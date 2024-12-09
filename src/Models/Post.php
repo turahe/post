@@ -18,18 +18,21 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Turahe\Core\Concerns\HasTags;
 use Turahe\UserStamps\Concerns\HasUserStamps;
 
-class Post extends Model
+class Post extends Model implements Sortable
 {
     use HasSlug;
     use HasTags;
     use HasUlids;
     use HasUserStamps;
     use SoftDeletes;
+    use SortableTrait;
 
     /**
      * @var string
@@ -53,6 +56,11 @@ class Post extends Model
         'published_at',
         'language',
         'layout',
+    ];
+
+    public $sortable = [
+        'order_column_name' => 'record_ordering',
+        'sort_when_creating' => true,
     ];
 
     protected function casts()

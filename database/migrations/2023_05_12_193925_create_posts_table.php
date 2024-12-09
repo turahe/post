@@ -35,6 +35,7 @@ return new class extends Migration
             $table->integer('published_at')->nullable();
             $table->string('language')->default('en');
             $table->string('layout')->nullable();
+            $table->unsignedBigInteger('record_ordering')->index()->nullable();
 
             $table->userstamps();
             $table->softUserstamps();
