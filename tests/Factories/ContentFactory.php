@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Turahe\Post\Databases\Factories;
+namespace Turahe\Post\Tests\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use League\CommonMark\Exception\CommonMarkException;

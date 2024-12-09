@@ -6,8 +6,8 @@ namespace Turahe\Post\Tests\Unit;
 
 use Illuminate\Database\Eloquent\Collection;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
-use PHPUnit\Framework\Attributes\Test;
 use Turahe\Post\Models\Content;
+use Turahe\Post\Tests\Factories\ContentFactory;
 use Turahe\Post\Tests\Models\Dummy;
 use Turahe\Post\Tests\Models\User;
 use Turahe\Post\Tests\TestCase;
@@ -22,11 +22,10 @@ class ContentTest extends TestCase
         $this->testModel = Dummy::create(['name' => 'Dummy Dummy Dummy Dummy']);
     }
 
-    #[Test]
-    public function it_can_list_all_contents(): void
+    public function test_can_list_all_contents(): void
     {
         $count = 5;
-        Content::factory()->count($count)->create([
+        ContentFactory::new()->count($count)->create([
             'model_id' => $this->testModel->getKey(),
             'model_type' => $this->testModel->getMorphClass(),
         ]);
@@ -35,10 +34,9 @@ class ContentTest extends TestCase
         $this->assertCount($count, Content::all()); // +1 in the TestCase
     }
 
-    #[Test]
-    public function it_can_delete_the_content(): void
+    public function test_can_delete_the_content(): void
     {
-        $content = Content::factory()->create([
+        $content = ContentFactory::new()->create([
             'model_id' => $this->testModel->getKey(),
             'model_type' => $this->testModel->getMorphClass(),
         ]);
@@ -50,13 +48,12 @@ class ContentTest extends TestCase
         $this->assertNotNull($content->deleted_at);
     }
 
-    #[Test]
-    public function it_can_delete_the_content_of_user(): void
+    public function test_can_delete_the_content_of_user(): void
     {
         $user1 = User::create([]);
         $this->actingAs($user1);
 
-        $content = Content::factory()->create([
+        $content = ContentFactory::new()->create([
             'model_id' => $this->testModel->getKey(),
             'model_type' => $this->testModel->getMorphClass(),
         ]);
@@ -72,10 +69,9 @@ class ContentTest extends TestCase
         $this->assertEquals($user2->getKey(), $content->deleted_by);
     }
 
-    #[Test]
-    public function it_can_update_the_content(): void
+    public function test_can_update_the_content(): void
     {
-        $contentFactory = Content::factory()->create([
+        $contentFactory = ContentFactory::new()->create([
             'model_id' => $this->testModel->getKey(),
             'model_type' => $this->testModel->getMorphClass(),
         ]);
@@ -97,12 +93,11 @@ class ContentTest extends TestCase
         $this->assertEquals($data['content_html'], $content->content_html);
     }
 
-    #[Test]
-    public function it_can_update_the_content_of_user(): void
+    public function test_can_update_the_content_of_user(): void
     {
         $user1 = User::create([]);
         $this->actingAs($user1);
-        $contentFactory = Content::factory()->create([
+        $contentFactory = ContentFactory::new()->create([
             'model_id' => $this->testModel->getKey(),
             'model_type' => $this->testModel->getMorphClass(),
         ]);
@@ -128,8 +123,7 @@ class ContentTest extends TestCase
         $this->assertEquals($user2->getKey(), $content->updated_by);
     }
 
-    #[Test]
-    public function it_can_create_a_content(): void
+    public function test_can_create_a_content(): void
     {
 
         $contentRaw = $this->faker->paragraph();
@@ -150,8 +144,7 @@ class ContentTest extends TestCase
         $this->assertEquals($data['content_html'], $content->content_html);
     }
 
-    #[Test]
-    public function it_can_create_a_content_of_user(): void
+    public function test_can_create_a_content_of_user(): void
     {
 
         $user = User::create([]);
@@ -176,11 +169,10 @@ class ContentTest extends TestCase
         $this->assertEquals($user->getKey(), $content->updated_by);
     }
 
-    #[Test]
-    public function it_can_find_slug_a_content(): void
+    public function test_can_find_slug_a_content(): void
     {
 
-        $content = Content::factory()->create($data = [
+        $content = ContentFactory::new()->create($data = [
             'model_id' => $this->testModel->getKey(),
             'model_type' => $this->testModel->getMorphClass(),
         ]);

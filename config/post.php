@@ -1,3 +1,8 @@
 <?php
 
-return [];
+return [
+    'tables' => [
+        'posts' => 'posts',
+        'contents' => 'contents',
+    ],
+];

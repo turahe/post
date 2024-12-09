@@ -23,7 +23,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table): void {
+        Schema::create(config('post.tables.posts', 'posts'), function (Blueprint $table): void {
             $table->ulid('id')->primary();
             $table->string('slug')->index()->unique();
             $table->string('title');
@@ -53,6 +53,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists(config('post.tables.posts', 'posts'));
     }
 };

@@ -6,53 +6,12 @@ namespace Turahe\Post\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Turahe\Post\Databases\Factories\ContentFactory;
 use Turahe\UserStamps\Concerns\HasUserStamps;
 
-/**
- * @property string $id
- * @property string $model_type
- * @property string $model_id
- * @property string $content_raw
- * @property string $content_html
- * @property string|null $created_by
- * @property string|null $updated_by
- * @property string|null $deleted_by
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\User|null $author
- * @property-read \App\Models\User|null $destroyer
- * @property-read \App\Models\User|null $editor
- * @property-read mixed $read_time
- * @property-read mixed $word_count
- *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Content newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Content newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Content onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Content query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Content whereContentHtml($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Content whereContentRaw($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Content whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Content whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Content whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Content whereDeletedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Content whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Content whereModelId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Content whereModelType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Content whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Content whereUpdatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Content withTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Content withoutTrashed()
- *
- * @mixin \Eloquent
- */
 class Content extends Model
 {
-    use HasFactory;
     use HasUlids;
     use HasUserStamps;
     use SoftDeletes;
@@ -100,10 +59,5 @@ class Content extends Model
                 'words' => $this->word_count,
             ];
         });
-    }
-
-    protected static function newFactory()
-    {
-        return ContentFactory::new();
     }
 }

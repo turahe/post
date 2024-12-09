@@ -7,8 +7,8 @@ namespace Turahe\Post\Tests\Feature\Concerns;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
-use PHPUnit\Framework\Attributes\Test;
 use Turahe\Post\Models\Content;
+use Turahe\Post\Tests\Factories\ContentFactory;
 use Turahe\Post\Tests\Models\Dummy;
 use Turahe\Post\Tests\TestCase;
 
@@ -23,25 +23,22 @@ class HasContentTest extends TestCase
 
     }
 
-    #[Test]
-    public function it_provides_a_contents_relation(): void
+    public function test_provides_a_contents_relation(): void
     {
         $this->assertInstanceOf(MorphMany::class, $this->testModel->contents());
         $this->assertInstanceOf(Collection::class, $this->testModel->contents);
     }
 
-    #[Test]
-    public function it_can_model_has_relation_with_contents(): void
+    public function test_can_model_has_relation_with_contents(): void
     {
-        $this->testModel->contents()->saveMany(Content::factory(3)->make());
+        $this->testModel->contents()->saveMany(ContentFactory::new()->count(3)->make());
         $this->assertInstanceOf(MorphMany::class, $this->testModel->contents());
         $this->assertInstanceOf(Collection::class, $this->testModel->contents);
         $this->assertInstanceOf(Content::class, $this->testModel->getContent());
 
     }
 
-    #[Test]
-    public function it_can_model_has_create_with_contents(): void
+    public function test_can_model_has_create_with_contents(): void
     {
         $markdown = new GithubFlavoredMarkdownConverter;
 
@@ -62,10 +59,9 @@ class HasContentTest extends TestCase
 
     }
 
-    #[Test]
-    public function it_can_model_delete_and_all_contents(): void
+    public function test_can_model_delete_and_all_contents(): void
     {
-        Content::factory(3)->create([
+        ContentFactory::new()->count(3)->create([
             'model_id' => $this->testModel->getKey(),
             'model_type' => $this->testModel->getMorphClass(),
         ]);

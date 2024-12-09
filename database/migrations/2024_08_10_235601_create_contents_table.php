@@ -14,7 +14,7 @@ return new class extends Migration
     public function up(): void
     {
 
-        Schema::create('contents', function (Blueprint $table): void {
+        Schema::create(config('post.tables.contents', 'contents'), function (Blueprint $table): void {
             $table->ulid('id')->primary();
             $table->ulidMorphs('model');
             $table->text('content_raw');
@@ -38,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contents');
+        Schema::dropIfExists(config('post.tables.contents', 'contents'));
     }
 };
