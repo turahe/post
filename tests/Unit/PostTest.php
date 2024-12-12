@@ -92,4 +92,13 @@ class PostTest extends TestCase
         $this->assertEquals($post['slug'], $post->slug);
         $this->assertEquals($post['title'], $post->title);
     }
+
+    public function test_sets_the_order_column_on_creation()
+    {
+        PostFactory::new()->count(5)->create();
+
+        foreach (Post::all() as $index => $dummy) {
+            $this->assertEquals($index + 1, $dummy->record_ordering);
+        }
+    }
 }
