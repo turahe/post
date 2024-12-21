@@ -85,14 +85,11 @@ class Post extends Model implements Sortable
 
     public function scopePublished(Builder $query): Builder
     {
-        return $query->where('published_at', '<=', now());
+        return $query->whereNotNull('published_at');
     }
 
     public function scopeNotPublished(Builder $query): Builder
     {
-        return $query->where(function (Builder $query): Builder {
-            return $query->whereNull('published_at')
-                ->orWhere('published_at', '>', now());
-        });
+        return $query->whereNull('published_at');
     }
 }

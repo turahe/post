@@ -101,4 +101,28 @@ class PostTest extends TestCase
             $this->assertEquals($index + 1, $post->record_ordering);
         }
     }
+
+    public function test_post_was_not_published(): void
+    {
+        PostFactory::new()->count(2)->create([
+            'published_at' => null,
+        ]);
+
+        PostFactory::new()->createOne();
+
+        $this->assertCount(2, Post::notPublished()->get());
+    }
+
+    public function test_post_was_published(): void
+    {
+        PostFactory::new()->count(2)->create([
+            'published_at' => now(),
+        ]);
+
+        PostFactory::new()->createOne([
+            'published_at' => null,
+        ]);
+
+        $this->assertCount(2, Post::published()->get());
+    }
 }
