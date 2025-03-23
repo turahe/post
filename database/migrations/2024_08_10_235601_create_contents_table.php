@@ -23,9 +23,14 @@ return new class extends Migration
             $table->userstamps();
             $table->softUserstamps();
 
-            $table->integer('deleted_at')->index()->nullable();
-            $table->integer('created_at')->index()->nullable();
-            $table->integer('updated_at')->index()->nullable();
+            if (config('core.table.use_timestamps')) {
+                $table->timestamps();
+                $table->softDeletes();
+            } else {
+                $table->integer('created_at')->index()->nullable();
+                $table->integer('updated_at')->index()->nullable();
+                $table->integer('deleted_at')->index()->nullable();
+            }
 
             $table->index('id', 'contents_id_idx', 'hash');
             $table->index('model_id', 'contents_model_id_idx', 'hash');
