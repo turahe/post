@@ -40,7 +40,7 @@ class HasContentTest extends TestCase
 
     public function test_can_model_has_create_with_contents(): void
     {
-        $markdown = new GithubFlavoredMarkdownConverter;
+        $markdown = new GithubFlavoredMarkdownConverter();
 
         $data = ['content' => 'this is contents'];
         $content = $this->testModel->setContents($data['content']);
@@ -68,11 +68,13 @@ class HasContentTest extends TestCase
         $deleted = $this->testModel->delete();
         $this->assertTrue($deleted);
 
-        $this->assertSoftDeleted('contents',
+        $this->assertSoftDeleted(
+            'contents',
             [
                 'model_type' => $this->testModel->getMorphClass(),
                 'model_id' => $this->testModel->getKey(),
-            ]);
+            ]
+        );
 
         Content::withTrashed()->get()->each(function (Content $content) {
             $this->assertEquals($this->testModel->getMorphClass(), $content->model_type);

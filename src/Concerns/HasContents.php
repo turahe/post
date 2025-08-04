@@ -54,7 +54,7 @@ trait HasContents
      */
     public function setContents($content): Content
     {
-        $markdown = new GithubFlavoredMarkdownConverter;
+        $markdown = new GithubFlavoredMarkdownConverter();
 
         return $this->contents()->create([
             'content_raw' => $content,

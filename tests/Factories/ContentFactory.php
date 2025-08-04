@@ -26,7 +26,7 @@ class ContentFactory extends Factory
     public function definition(): array
     {
         $content = $this->faker->paragraph();
-        $markdown = new GithubFlavoredMarkdownConverter;
+        $markdown = new GithubFlavoredMarkdownConverter();
 
         return [
             'content_raw' => $this->faker->paragraph(),

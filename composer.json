@@ -39,6 +39,16 @@
             "email": "wachid@outlook.com"
         }
     ],
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit -c phpunit-coverage.xml",
+        "pint": "vendor/bin/pint",
+        "pint-test": "vendor/bin/pint --test",
+        "check": [
+            "@pint-test",
+            "@test"
+        ]
+    },
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,

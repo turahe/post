@@ -77,7 +77,7 @@ class ContentTest extends TestCase
         ]);
 
         $contentRaw = $this->faker->paragraph();
-        $markdown = new GithubFlavoredMarkdownConverter;
+        $markdown = new GithubFlavoredMarkdownConverter();
 
         $data = [
             'content_raw' => $contentRaw,
@@ -103,7 +103,7 @@ class ContentTest extends TestCase
         ]);
 
         $contentRaw = $this->faker->paragraph();
-        $markdown = new GithubFlavoredMarkdownConverter;
+        $markdown = new GithubFlavoredMarkdownConverter();
 
         $data = [
             'content_raw' => $contentRaw,
@@ -127,7 +127,7 @@ class ContentTest extends TestCase
     {
 
         $contentRaw = $this->faker->paragraph();
-        $markdown = new GithubFlavoredMarkdownConverter;
+        $markdown = new GithubFlavoredMarkdownConverter();
         $data = [
             'model_id' => $this->testModel->getKey(),
             'model_type' => $this->testModel->getMorphClass(),
@@ -150,7 +150,7 @@ class ContentTest extends TestCase
         $user = User::create([]);
         $this->actingAs($user);
         $contentRaw = $this->faker->paragraph();
-        $markdown = new GithubFlavoredMarkdownConverter;
+        $markdown = new GithubFlavoredMarkdownConverter();
         $data = [
             'model_id' => $this->testModel->getKey(),
             'model_type' => $this->testModel->getMorphClass(),

@@ -16,8 +16,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -40,14 +39,8 @@ return new class extends Migration
             $table->userstamps();
             $table->softUserstamps();
 
-            if (config('core.table.use_timestamps')) {
-                $table->timestamps();
-                $table->softDeletes();
-            } else {
-                $table->integer('created_at')->index()->nullable();
-                $table->integer('updated_at')->index()->nullable();
-                $table->integer('deleted_at')->index()->nullable();
-            }
+            $table->timestamps();
+            $table->softDeletes();
 
             $table->index('id', 'posts_id_idx', 'hash');
             $table->index('slug', 'posts_slug_idx', 'hash');
