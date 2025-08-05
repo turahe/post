@@ -1,6 +1,11 @@
 [![run-tests](https://github.com/turahe/post/actions/workflows/run-test.yml/badge.svg)](https://github.com/turahe/post/actions/workflows/run-test.yml)
+[![Latest Version](https://img.shields.io/github/v/release/turahe/post)](https://github.com/turahe/post/releases)
+[![PHP Version](https://img.shields.io/packagist/php-v/turahe/post)](https://packagist.org/packages/turahe/post)
+[![Code Coverage](https://img.shields.io/badge/coverage-46%25-yellow)](https://github.com/turahe/post)
 
 # Turahe Post
+
+A Laravel package for managing posts with content, markdown support, and comprehensive testing.
 
 
 ## Installation
@@ -14,7 +19,7 @@
 2. Publish resources (migrations and config files):
 
     ```shell
-    php artisan vendor:publish --provider="Turahe\Core\PostServiceProvider"
+    php artisan vendor:publish --provider="Turahe\Post\PostServiceProvider"
     ```
 
 3. Execute migrations via the following command:
@@ -24,6 +29,66 @@
     ```
 
 4. Done!
+
+## Features
+
+- ✅ **Post Management**: Create, update, and manage posts
+- ✅ **Content Support**: Rich content with markdown conversion
+- ✅ **Slug Generation**: Automatic slug generation from titles
+- ✅ **Soft Deletes**: Safe deletion with data preservation
+- ✅ **User Stamps**: Track who created and modified posts
+- ✅ **Sorting**: Flexible post ordering and sorting
+- ✅ **Publishing**: Control post publication status
+- ✅ **Multi-language**: Support for different languages
+- ✅ **Comprehensive Testing**: 21 tests with 79 assertions
+- ✅ **Code Quality**: PSR-12 compliant with Laravel Pint
+
+## Quick Start
+
+### Basic Usage
+
+```php
+use Turahe\Post\Models\Post;
+
+// Create a post
+$post = Post::create([
+    'title' => 'My First Post',
+    'subtitle' => 'A subtitle',
+    'description' => 'Post description',
+    'type' => 'post',
+]);
+
+// Add content with markdown
+$post->setContents('# Hello World\n\nThis is **markdown** content.');
+
+// Get formatted content
+echo $post->content; // HTML output
+echo $post->content_raw; // Raw markdown
+```
+
+### Content Management
+
+```php
+// Get the latest content
+$content = $post->getContent();
+
+// Get word count and read time
+echo $content->word_count; // Number of words
+echo $content->read_time['text']; // "2 minutes"
+```
+
+### Publishing Posts
+
+```php
+// Publish a post
+$post->update(['published_at' => now()]);
+
+// Get published posts
+$published = Post::published()->get();
+
+// Get draft posts
+$drafts = Post::notPublished()->get();
+```
 
 ## Contributing
 
@@ -108,6 +173,12 @@ View coverage reports:
 - ❌ Content Model: 0% coverage (needs tests)
 - ❌ PostServiceProvider: 0% coverage (needs tests)
 
+### Requirements
+
+- **PHP**: ^8.2
+- **Laravel**: 9.x, 10.x, 11.x
+- **Database**: MySQL, PostgreSQL, SQLite
+
 ## CI/CD
 
 This package uses GitHub Actions for continuous integration. The workflow includes:
@@ -136,4 +207,39 @@ The CI pipeline will run automatically on:
 - **Target:** 90%+ overall coverage
 - **Priority:** Add tests for Content model and PostServiceProvider
 - **Maintenance:** Keep Post model at 100% coverage
+
+## License
+
+This package is proprietary software. All rights reserved.
+
+## Support
+
+- **Issues**: [GitHub Issues](https://github.com/turahe/post/issues)
+- **Documentation**: [Coverage Report](COVERAGE_REPORT.md)
+- **CI/CD**: [GitHub Actions](https://github.com/turahe/post/actions)
+
+## Changelog
+
+### v1.2.0 (Latest)
+- ✨ Add comprehensive CI/CD pipeline
+- ✨ Add multi-PHP version testing (8.2, 8.3, 8.4)
+- ✨ Add code quality checks with Laravel Pint
+- ✨ Add security audits with Composer audit
+- ✨ Add code coverage reporting with Xdebug
+- ✨ Add private repository authentication support
+- ✨ Add custom Packagist repository support
+- 📊 Add detailed coverage analysis and reports
+- 📚 Add comprehensive documentation
+- 🔧 Update all GitHub Actions to latest versions
+
+### v1.1.0
+- ✨ Add content management features
+- ✨ Add markdown support
+- ✨ Add word count and read time calculations
+
+### v1.0.0
+- 🎉 Initial release
+- ✨ Basic post management
+- ✨ Slug generation
+- ✨ Soft deletes
 
