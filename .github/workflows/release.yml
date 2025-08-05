@@ -1,0 +1,128 @@
+name: Release to Packagist
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  release:
+    name: Release to Packagist
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Configure Git for private repositories
+      run: |
+        if [ -n "${{ secrets.PAT_TOKEN }}" ]; then
+          git config --global url."https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+        else
+          git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
+        fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Configure Composer for private repositories
+      run: |
+        if [ -n "${{ secrets.PAT_TOKEN }}" ]; then
+          composer config github-oauth.github.com ${{ secrets.PAT_TOKEN }}
+        else
+          composer config github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+        fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.4
+        extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite
+        tools: composer:v2
+
+    - name: Get composer cache directory
+      id: composer-cache
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+    - name: Cache Composer packages
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-php-8.4-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-8.4-composer-
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-interaction
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Run tests
+      run: composer test
+
+    - name: Check code style
+      run: composer pint-test
+
+    - name: Get version from tag
+      id: version
+      run: echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+    - name: Create GitHub Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.version.outputs.version }}
+        release_name: Release ${{ steps.version.outputs.version }}
+        body: |
+          ## What's New in ${{ steps.version.outputs.version }}
+          
+          This release includes:
+          - Bug fixes and improvements
+          - Enhanced documentation
+          - Updated dependencies
+          
+          ## Installation
+          
+          ```bash
+          composer require turahe/post:${{ steps.version.outputs.version }}
+          ```
+          
+          ## Changelog
+          
+          See [CHANGELOG.md](https://github.com/turahe/post/blob/master/CHANGELOG.md) for detailed changes.
+        draft: false
+        prerelease: false
+
+    - name: Publish to Packagist
+      run: |
+        # Configure Packagist authentication
+        composer config http-basic.packagist.x-api.app ${{ secrets.PACKAGIST_USERNAME }} ${{ secrets.PACKAGIST_TOKEN }}
+        
+        # Publish to Packagist
+        composer publish --no-interaction
+      env:
+        PACKAGIST_USERNAME: ${{ secrets.PACKAGIST_USERNAME }}
+        PACKAGIST_TOKEN: ${{ secrets.PACKAGIST_TOKEN }}
+
+    - name: Notify on success
+      if: success()
+      run: |
+        echo "✅ Successfully released ${{ steps.version.outputs.version }} to Packagist!"
+        echo "📦 Package: turahe/post"
+        echo "🏷️  Version: ${{ steps.version.outputs.version }}"
+        echo "🔗 Packagist: https://packagist.org/packages/turahe/post"
+
+    - name: Notify on failure
+      if: failure()
+      run: |
+        echo "❌ Failed to release ${{ steps.version.outputs.version }} to Packagist!"
+        echo "Please check the logs for more details." 

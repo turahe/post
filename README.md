@@ -181,16 +181,23 @@ View coverage reports:
 
 ## CI/CD
 
-This package uses GitHub Actions for continuous integration. The workflow includes:
+This package uses GitHub Actions for continuous integration and deployment. The workflows include:
 
+### **Continuous Integration**
 - **Tests**: Runs on PHP 8.2, 8.3, and 8.4
 - **Code Quality**: Checks code style using Laravel Pint
 - **Security**: Runs security audits on dependencies
 - **Coverage**: Generates and uploads coverage reports to Codecov
 
+### **Automatic Releases**
+- **Trigger**: Pushes to tags (e.g., `v1.2.1`)
+- **Process**: Runs tests → Creates GitHub release → Publishes to Packagist
+- **Requirements**: Set `PACKAGIST_USERNAME` and `PACKAGIST_TOKEN` secrets
+
 The CI pipeline will run automatically on:
 - Push to `master` or `main` branches
 - Pull requests to `master` or `main` branches
+- **Tag pushes** (triggers automatic release)
 
 ## Code Coverage Status
 
@@ -228,6 +235,7 @@ This package is open-sourced software licensed under the [MIT license](LICENSE).
 - ✨ Add code coverage reporting with Xdebug
 - ✨ Add private repository authentication support
 - ✨ Add custom Packagist repository support
+- 🚀 Add automatic releases to Packagist on tag push
 - 📊 Add detailed coverage analysis and reports
 - 📚 Add comprehensive documentation
 - 🔧 Update all GitHub Actions to latest versions
