@@ -1,6 +1,6 @@
 {
     "name": "turahe/post",
-    "description": "post",
+    "description": "A package for managing posts.",
     "type": "library",
     "repositories": [{
         "type": "composer",
