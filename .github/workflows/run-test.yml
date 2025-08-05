@@ -28,13 +28,21 @@ jobs:
 
     - name: Configure Git for private repositories
       run: |
-        git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
+        if [ -n "${{ secrets.PAT_TOKEN }}" ]; then
+          git config --global url."https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+        else
+          git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
+        fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Configure Composer for private repositories
       run: |
-        composer config github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+        if [ -n "${{ secrets.PAT_TOKEN }}" ]; then
+          composer config github-oauth.github.com ${{ secrets.PAT_TOKEN }}
+        else
+          composer config github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+        fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -87,13 +95,21 @@ jobs:
 
     - name: Configure Git for private repositories
       run: |
-        git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
+        if [ -n "${{ secrets.PAT_TOKEN }}" ]; then
+          git config --global url."https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+        else
+          git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
+        fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Configure Composer for private repositories
       run: |
-        composer config github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+        if [ -n "${{ secrets.PAT_TOKEN }}" ]; then
+          composer config github-oauth.github.com ${{ secrets.PAT_TOKEN }}
+        else
+          composer config github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+        fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -138,7 +154,11 @@ jobs:
 
     - name: Configure Git for private repositories
       run: |
-        git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
+        if [ -n "${{ secrets.PAT_TOKEN }}" ]; then
+          git config --global url."https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+        else
+          git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
+        fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
