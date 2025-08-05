@@ -210,7 +210,7 @@ The CI pipeline will run automatically on:
 
 ## License
 
-This package is proprietary software. All rights reserved.
+This package is open-sourced software licensed under the [MIT license](LICENSE).
 
 ## Support
 
